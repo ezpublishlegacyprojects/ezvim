@@ -1,5 +1,4 @@
 
-
 " Default config
 if !exists('EzSideBarWidth')
     let EzSideBarWidth = 42
@@ -14,6 +13,7 @@ let EzAttributeDocBase="http://ez.no/doc/content/advancedsearch?&SearchText="
 " Abbreviations for template
 autocmd BufNewFile,BufRead *.tpl call EzTplEnvironment()
 
+" Classes View
 command! -nargs=1 -bar Ezcv call Ezcv('<args>')
 abbreviate cv Ezcv
 
@@ -132,5 +132,6 @@ endfunction
 "	let python_func = 'py eZTemplateCheck('.bufnum.')'
 "	exec python_func
 "endfunction
+
 
 
