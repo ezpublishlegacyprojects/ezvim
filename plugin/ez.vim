@@ -1,3 +1,23 @@
+" This file is part of ezvim.
+"
+" Authors :
+"   Damien Pobel <dpobel@free.fr>
+"
+" ezvim is free software; you can redistribute it and/or modify
+" it under the terms of the GNU General Public License as published by
+" the Free Software Foundation; either version 2 of the License, or
+" (at your option) any later version.
+" 
+" ezvim is distributed in the hope that it will be useful,
+" but WITHOUT ANY WARRANTY; without even the implied warranty of
+" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+" GNU General Public License for more details.
+" 
+" You should have received a copy of the GNU General Public License
+" along with ezvim; if not, write to the Free Software
+" Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+
 
 " Default config
 if !exists('EzSideBarWidth')
@@ -9,6 +29,11 @@ endif
 
 let EzSideBarName="ezbar"
 let EzAttributeDocBase="http://ez.no/doc/content/advancedsearch?&SearchText="
+let EzDocumentation="http://ez.no/doc/ez_publish/technical_manual/3_8"
+let EzClassesGroupView="/class/classlist/"
+let EzClassesGroupEdit="/class/groupedit/"
+let EzClassView="/class/view/"
+let EzClassEdit="/class/edit/"
 
 " Abbreviations for template
 autocmd BufNewFile,BufRead *.tpl call EzTplEnvironment()
@@ -67,25 +92,72 @@ function! Ezcv(siteurl)
     nnoremap <buffer> <silent> * :silent! %foldopen!<CR>
     nnoremap <buffer> <silent> = :silent! %foldclose<CR>
     nnoremap <buffer> <silent> d :call OpenEzDoc()<CR>
+    nnoremap <buffer> <silent> e :call OpenEzEdit()<CR>
+    nnoremap <buffer> <silent> v :call OpenEzView()<CR>
     
     exec python_func
 endfunction
 
+function! GetSiteURL()
+    return substitute(getline(1), 'Site\: ', '', '')
+endfunction
+
+function! OpenEzViewEdit()
+    if !exists('*system') || !executable(g:EzBrowser)
+        return 
+    endif
+    if match(getline('.'), '^[^ ]') != -1
+        let siteURL = GetSiteURL()
+        let id=substitute(getline('.'), '.* \#\([0-9]*\) .*', '\1', '')
+        let url = siteURL.g:EzClassesGroupView.id
+        let cmd = g:EzBrowser.' "'.url.'"'
+        let res = system(cmd)
+    elseif match(getline('.'), '^  o ') != -1
+        let siteURL = GetSiteURL()
+        let id=substitute(getline('.'), '.* \#\([0-9]*\) .*', '\1', '')
+        let url = siteURL.g:EzClassView.id
+        let cmd = g:EzBrowser.' "'.url.'"'
+        let res = system(cmd)
+    endif
+endfunction
+
+function! OpenEzEdit()
+    if !exists('*system') || !executable(g:EzBrowser)
+        return 
+    endif
+    if match(getline('.'), '^[^ ]') != -1
+        let siteURL = GetSiteURL()
+        let id=substitute(getline('.'), '.* \#\([0-9]*\) .*', '\1', '')
+        let url = siteURL.g:EzClassesGroupEdit.id
+        let cmd = g:EzBrowser.' "'.url.'"'
+        let res = system(cmd)
+    elseif match(getline('.'), '^  o ') != -1
+        let siteURL = GetSiteURL()
+        let id=substitute(getline('.'), '.* \#\([0-9]*\) .*', '\1', '')
+        let url = siteURL.g:EzClassEdit.id
+        let cmd = g:EzBrowser.' "'.url.'"'
+        let res = system(cmd)
+    endif
+endfunction
 
 function! OpenEzDoc()
     if !exists('*system') || !executable(g:EzBrowser)
         return 
     endif
-    let type=substitute(getline('.'), '.*\[\(.*\)\].*', '\1', '')
-    let url=g:EzAttributeDocBase . type
+    if match(getline('.'), '^    [+-] ') != -1   
+        let type=substitute(getline('.'), '.*\[\(.*\)\].*', '\1', '')
+        let url=g:EzAttributeDocBase . type
+    else
+        let url=g:EzDocumentation
+    endif
     let cmd= g:EzBrowser.' "'.url.'"'
     let res = system(cmd)
-    return 
 endfunction
 
 
 function! EzTplEnvironment()
 	"""""""""" Control structures
+    match Error / __ /
 	iabbrev ezfe {foreach __ as $k => $val}<CR><CR>{/foreach}
 	iabbrev ezfes {foreach __ as $k => $val sequence array( __ ) as $seq}<CR><CR>{/foreach}
 
