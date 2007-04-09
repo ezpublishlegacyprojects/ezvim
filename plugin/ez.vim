@@ -28,14 +28,17 @@ if !exists('EzBrowser')
 endif
 
 let EzSideBarName="ezbar"
-let EzAttributeDocBase="http://ez.no/doc/content/advancedsearch?&SearchText="
+let EzSearchDocBase="http://ez.no/doc/content/advancedsearch?PhraseSearchText="
 let EzDocumentation="http://ez.no/doc/ez_publish/technical_manual/3_8"
 let EzClassesGroupView="/class/classlist/"
 let EzClassesGroupEdit="/class/groupedit/"
 let EzClassView="/class/view/"
 let EzClassEdit="/class/edit/"
 
+
+
 " Abbreviations for template
+" and special keybindings
 autocmd BufNewFile,BufRead *.tpl call EzTplEnvironment()
 
 " Classes View
@@ -102,7 +105,7 @@ function! GetSiteURL()
     return substitute(getline(1), 'Site\: ', '', '')
 endfunction
 
-function! OpenEzViewEdit()
+function! OpenEzView()
     if !exists('*system') || !executable(g:EzBrowser)
         return 
     endif
@@ -146,16 +149,26 @@ function! OpenEzDoc()
     endif
     if match(getline('.'), '^    [+-] ') != -1   
         let type=substitute(getline('.'), '.*\[\(.*\)\].*', '\1', '')
-        let url=g:EzAttributeDocBase . type
+		EzSearchDoc(type)
     else
-        let url=g:EzDocumentation
+		let cmd= g:EzBrowser.' "'.g:EzDocumentation.'"'
+		let res = system(cmd)
     endif
-    let cmd= g:EzBrowser.' "'.url.'"'
-    let res = system(cmd)
 endfunction
 
 
+function! EzSearchDoc(word)
+	let url = g:EzSearchDocBase . a:word
+    let cmd = g:EzBrowser.' "'.url.'"'
+    let res = system(cmd)
+endfunction
+
 function! EzTplEnvironment()
+
+	" Search the documentation for current word
+	inoremap <silent> <A-d> <C-O>:call EzSearchDoc(expand("<cword>"))<CR>
+	nnoremap <buffer> <silent> <A-d> :call EzSearchDoc(expand("<cword>"))<CR>
+		
 	"""""""""" Control structures
     match Error / __ /
 	iabbrev ezfe {foreach __ as $k => $val}<CR><CR>{/foreach}
