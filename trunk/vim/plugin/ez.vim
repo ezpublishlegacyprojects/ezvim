@@ -188,8 +188,8 @@ function! EzTplEnvironment()
     iabbrev ezfclsa fetch( content, list, hash( 'parent_node_id', __ ,<CR>'class_filter_type', include,<CR>'class_filter_array', array( __ ),<CR>'sort_by', array( __ ),<CR>'attribute_filter', array( __ ),<CR>'offset', $view_parameters.offset,<CR>'limit', __ ) )
 
     " content list_count
-    iabbrev ezfclc fetch( content, list_count, hash( 'parent_node_id', __ ,<CR>'class_filter_type', include,<CR>'class_filter_array', array( __ ),<CR>'offset', $view_parameters.offset,<CR>'limit', __ ) )
-    iabbrev ezfclca fetch( content, list_count, hash( 'parent_node_id', __ ,<CR>'class_filter_type', include,<CR>'class_filter_array', array( __ ),<CR>'attribute_filter', array( __ ),<CR>'offset', $view_parameters.offset,<CR>'limit', __ ) )
+    iabbrev ezfclc fetch( content, list_count, hash( 'parent_node_id', __ ,<CR>'class_filter_type', include,<CR>'class_filter_array', array( __ ) ) )
+    iabbrev ezfclca fetch( content, list_count, hash( 'parent_node_id', __ ,<CR>'class_filter_type', include,<CR>'class_filter_array', array( __ ),<CR>'attribute_filter', array( __ ) ) )
 
     " content tree
     iabbrev ezfct fetch( content, tree, hash( 'parent_node_id', __ ,<CR>'class_filter_type', include,<CR>'class_filter_array', array( __ ),<CR>'offset', $view_parameters.offset,<CR>'limit', __ ) )
@@ -199,8 +199,8 @@ function! EzTplEnvironment()
     iabbrev ezfctsa fetch( content, tree, hash( 'parent_node_id', __ ,<CR>'class_filter_type', include,<CR>'class_filter_array', array( __ ),<CR>'sort_by', array( __ ),<CR>'attribute_filter', array( __ ),<CR>'offset', $view_parameters.offset,<CR>'limit', __ ) )
 
     " content tree_count
-    iabbrev ezfctc fetch( content, tree_count, hash( 'parent_node_id', __ ,<CR>'offset', $view_parameters.offset,<CR>'limit', __ ) )
-    iabbrev ezfctca fetch( content, tree_count, hash( 'parent_node_id', __ ,<CR>'attribute_filter', array( __ ),<CR>'offset', $view_parameters.offset,<CR>'limit', __ ) )
+    iabbrev ezfctc fetch( content, tree_count, hash( 'parent_node_id', __,<CR>'class_filter_type', include,<CR>'class_filter_array', array( __ )  ) )
+    iabbrev ezfctca fetch( content, tree_count, hash( 'parent_node_id', __ ,<CR>'attribute_filter', array( __ ) ) )
 
 endfunction
 
@@ -220,6 +220,3 @@ endfunction
 "   let python_func = 'py eZTemplateCheck('.bufnum.')'
 "   exec python_func
 "endfunction
-
-
-
