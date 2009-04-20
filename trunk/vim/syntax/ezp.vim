@@ -21,8 +21,8 @@ syn case ignore
 runtime! syntax/html.vim
 
 " needed to recognize cache-block, set-block, $node, ...
-set isk+=-
-set isk+=$
+setlocal isk+=-
+setlocal isk+=$
 
 syn keyword ezpTagName include
 syn keyword ezpTagName attribute_edit_gui
