@@ -80,7 +80,7 @@ function! Ezcv(siteurl)
     syntax match ezClassGroup '^[^ ][A-Z0-9a-z]* '
     syntax match ezClassViewTitle /^Site:.*/
     syntax match ezError /^Error:.*$/
-    syntax region ezClassIdentifier start="o .* \[" end="\["
+    syntax region ezClassIdentifier start=" o .* \[" end="\["
     syntax region ezStringIdentifier start="\["hs=e+1 end="\]"he=s-1
     syntax region ezClassName start="  o "hs=e+1 end=" #"he=s-1
     syntax region ezRequired start="+ "hs=e+1 end=" "he=s-1
