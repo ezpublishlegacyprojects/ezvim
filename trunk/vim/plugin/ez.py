@@ -1,3 +1,4 @@
+# coding=utf-8
 # This file is part of ezvim.
 #
 # Authors :
@@ -44,14 +45,14 @@ def eZClassesView(ezsite):
         group_id = group.getAttribute('id')
         group_txt = eZClassesGroupText(group, class_list)
         group_start_line = len(curbuf)+1
-        curbuf.append(group_txt)
+        curbuf.append(group_txt.encode('utf-8'))
         for cl in class_list:
             class_txt = eZClassText(cl)
             class_start_line = len(curbuf)+1
-            curbuf.append('  o ' + class_txt)
+            curbuf.append('  o '+class_txt.encode('utf-8'))
             for attr in cl.getElementsByTagName('attribute'):
                 attr_txt = eZAttributeClass(attr)
-                curbuf.append(attr_txt)
+                curbuf.append(attr_txt.encode('utf-8'))
             class_end_line = len(curbuf)
             eZDoCommandRange(class_start_line, class_end_line, 'fold')
         group_end_line = len(curbuf)
@@ -66,8 +67,8 @@ def eZClassesView(ezsite):
 # Format the line for a Classes Group
 def eZClassesGroupText(group, class_list):
     group_id = group.getAttribute('id')
-    group_txt = str(group.getAttribute('identifier'))+' #'
-    group_txt = group_txt+str(group_id)+' ('+str(len(class_list))
+    group_txt = group.getAttribute('identifier')+' #'
+    group_txt = group_txt+group_id+' ('+str(len(class_list)).encode('utf-8')
     group_txt = group_txt+' classes)'
     return group_txt
 
@@ -76,8 +77,8 @@ def eZClassText(cl):
     class_name = cl.getAttribute('name')
     class_identifier = cl.getAttribute('identifier')
     class_numeric_id = cl.getAttribute('id')
-    class_txt = str(class_name) +' #'+str(class_numeric_id)
-    class_txt = class_txt+' ['+str(class_identifier)+']'
+    class_txt = class_name +' #'+class_numeric_id
+    class_txt = class_txt+' ['+class_identifier+']'
     return class_txt
  
 # Format the line for an attribute
@@ -90,9 +91,9 @@ def eZAttributeClass(attr):
     attr_prefix = '-'
     if attr_required :
         attr_prefix = '+'
-    attr_txt = '    '+attr_prefix+' '+str(attr_id)+' '
-    attr_txt = attr_txt+str(attr_name)+' #'+str(attr_numeric_id)
-    attr_txt = attr_txt+' ['+str(attr_type)+']'
+    attr_txt = '    '+attr_prefix+' '+attr_id+' '
+    attr_txt = attr_txt+attr_name+' #'+attr_numeric_id
+    attr_txt = attr_txt+' ['+attr_type+']'
     return attr_txt
 
 
