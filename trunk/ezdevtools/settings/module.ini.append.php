@@ -2,5 +2,6 @@
 
 [ModuleSettings]
 ExtensionRepositories[]=ezdevtools
+ModuleList[]=devtools
 
 */ ?>
