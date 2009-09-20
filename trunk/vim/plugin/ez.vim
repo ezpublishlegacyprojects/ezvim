@@ -166,7 +166,14 @@ function! OpenEzDoc()
     endif
 endfunction
 
+" TODO use autocmd instead of this function
 function! EzTplEnvironment()
+
+    " Check template syntax with C-L
+    setlocal errorformat=%f:%l\ %c:%m
+    setlocal makeprg=~/.vim/externals/templatecheck.php\ %
+    noremap <C-L>  :make<CR>:cwindow
+    inoremap <C-L> <ESC>:make<CR>:cwindow<CR>
 
     " Search the documentation for current word
     inoremap <silent> <A-d> <C-O>:call EzSearchDoc(expand("<cword>"))<CR>
